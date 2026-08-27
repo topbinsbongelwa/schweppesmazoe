@@ -1,69 +1,57 @@
+"use client";
+
+import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
+import logo from "../public/landing-shop-logo-.png";
+import Footer from "../components/Footer";
+import Hero from "../components/Hero";
+import Products from "../components/Products";
+
+function Icon({ name }: { name: "account" | "cart" | "menu" }) {
+  const paths = {
+    account: <><circle cx="12" cy="8" r="3.25" /><path d="M5.5 20c.5-3.2 2.7-5 6.5-5s6 1.8 6.5 5" /></>,
+    cart: <><circle cx="9" cy="20" r="1.25" /><circle cx="18" cy="20" r="1.25" /><path d="M3 4h2l2.2 11.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 1.9-1.4L21 8H6" /></>,
+    menu: <><path d="M4 7h16M4 12h16M4 17h16" /></>,
+  };
+
+  return <svg aria-hidden="true" className="shop-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">{paths[name]}</svg>;
+}
 
 export default function Home() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [catalogueOpen, setCatalogueOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
+  const [cartOpen, setCartOpen] = useState(false);
+  const [lastAdded, setLastAdded] = useState("");
+  const addToCart = (name: string) => { setCartCount((count) => count + 1); setLastAdded(name); };
+  const closeMenu = () => setMenuOpen(false);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <>
+      <div className="shop-top-bar"><div className="shop-top-bar-inner"><span>Call Us: +2638688002173</span><span>|</span><span>Whatsapp Us: +263773079763</span><div className="shop-top-links"><Link href="/cart">Wishlist</Link><span>|</span><Link href="/checkout">Checkout</Link></div></div></div>
+      <header className="shop-main-header">
+        <Link href="/" className="shop-brand" aria-label="Schweppes Zimbabwe home"><Image src={logo} alt="Schweppes Zimbabwe Limited" width={180} height={100} priority /></Link>
+        <div className="shop-search"><input type="search" placeholder="Search for products..." aria-label="Search for products" /></div>
+        <div className="shop-header-actions"><Link href="/shop" aria-label="Account"><Icon name="account" /></Link><button type="button" onClick={() => setCartOpen(true)} aria-label={`Cart, ${cartCount} items`}><Icon name="cart" /><b>{cartCount}</b></button></div>
+        <button className="shop-menu-button" type="button" onClick={() => setMenuOpen((open) => !open)} aria-expanded={menuOpen} aria-label="Toggle navigation"><Icon name="menu" /></button>
+      </header>
+      <nav className={`shop-navigation ${menuOpen ? "open" : ""}`}>
+        <div className="catalogue-menu">
+          <button type="button" className="catalogue-link" aria-expanded={catalogueOpen} onClick={() => setCatalogueOpen((open) => !open)}><Icon name="menu" /> View Full Catalogue</button>
+          {catalogueOpen && <div className="catalogue-dropdown">
+            <Link href="/catalogue" onClick={() => { setCatalogueOpen(false); closeMenu(); }}>All products</Link>
+            <Link href="/shop/mazoe_" onClick={() => { setCatalogueOpen(false); closeMenu(); }}>Mazoe</Link>
+            <Link href="/shop/minute_maid" onClick={() => { setCatalogueOpen(false); closeMenu(); }}>Minute Maid</Link>
+            <Link href="/shop/still_water" onClick={() => { setCatalogueOpen(false); closeMenu(); }}>Still Water</Link>
+            <Link href="/shop/fruitade_" onClick={() => { setCatalogueOpen(false); closeMenu(); }}>Fruitade</Link>
+          </div>}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+        <Link href="#products" onClick={closeMenu}>MAZOE</Link><span>|</span><Link href="/shop/minute_maid" onClick={closeMenu}>MINUTE MAID</Link><span>|</span><Link href="/shop/still_water" onClick={closeMenu}>STILL WATER</Link><span>|</span><Link href="/shop/fruitade_" onClick={closeMenu}>FRUITADE</Link><span>|</span><Link href="/order-tracking" onClick={closeMenu}>Track Your Order</Link>
+      </nav>
+      <main><Hero /><Products onAddToCart={addToCart} /><section className="story-section" id="story"><div className="site-width story-grid"><div><span className="eyebrow">The Mazoe way</span><h2>Goodness in every pour.</h2></div><p>From family tables to sunny afternoons, Mazoe brings a little more joy to the everyday. Made with real fruit flavour and a taste Zimbabwe has grown up loving.</p></div></section><section className="delivery-section" id="delivery"><div className="site-width delivery-grid"><div><span className="eyebrow">Click. Shop. Sip.</span><h2>Your favourites, delivered.</h2></div><div className="delivery-note"><p>We deliver all over Zimbabwe and accept cash on delivery.</p><Link href="/shop">Explore the full range <span aria-hidden="true">&#8599;</span></Link></div></div></section></main>
+      <Footer />
+      {cartOpen && <aside className="cart-drawer" aria-label="Shopping cart"><div className="cart-drawer-head"><div><span className="eyebrow">Your basket</span><h2>{cartCount} item{cartCount === 1 ? "" : "s"}</h2></div><button type="button" onClick={() => setCartOpen(false)} aria-label="Close cart">&#10005;</button></div>{cartCount > 0 ? <><p className="cart-message">{lastAdded} is ready for your next pour.</p><Link href="/shop" className="checkout-button">Review and checkout <span>&#8599;</span></Link></> : <p className="cart-message">Your basket is waiting for something delicious.</p>}</aside>}
+    </>
   );
 }

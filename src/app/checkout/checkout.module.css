@@ -1,0 +1,57 @@
+:global(.checkout-page) { min-height: 100vh; color: #183d35; background: #f3eee3; font-family: Arial, sans-serif; }
+:global(.checkout-header) { display: flex; align-items: center; justify-content: space-between; min-height: 82px; padding: 0 max(24px, calc((100% - 1180px) / 2)); border-bottom: 1px solid #ddd5c7; background: #fffdf8; }
+:global(.checkout-back) { color: #183d35; font-size: 12px; font-weight: 700; text-decoration: none; }
+:global(.checkout-logo) { display: flex; align-items: center; height: 82px; }
+:global(.checkout-logo img) { width: 145px; height: 84px; object-fit: contain; }
+:global(.checkout-mark span), :global(.checkout-kicker) { color: #ef7622; }
+:global(.checkout-step), :global(.checkout-kicker) { font-size: 10px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+:global(.checkout-step) { color: #6c7770; }
+:global(.checkout-layout) { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(300px, .65fr); gap: 70px; width: min(1100px, calc(100% - 48px)); margin: auto; padding: 78px 0 110px; }
+:global(.checkout-form-wrap h1), :global(.checkout-success h1) { max-width: 620px; margin: 15px 0 14px; color: #1f5b49; font: 400 clamp(44px, 6vw, 76px)/.94 Georgia, serif; letter-spacing: -.06em; }
+:global(.checkout-intro), :global(.checkout-success p) { max-width: 480px; margin-bottom: 50px; color: #6c7770; font-size: 14px; line-height: 1.6; }
+:global(.checkout-form-wrap fieldset) { margin: 0; padding: 30px 0; border: 0; border-top: 1px solid #d8d0c2; }
+:global(.checkout-form-wrap legend) { margin-bottom: 20px; color: #183d35; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+:global(.checkout-fields), :global(.payment-choices) { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+:global(.checkout-form-wrap label) { display: grid; gap: 9px; color: #6c7770; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+:global(.checkout-form-wrap input), :global(.checkout-form-wrap textarea), :global(.checkout-form-wrap select) { width: 100%; padding: 13px 0; border: 0; border-bottom: 1px solid #a9a092; outline: 0; resize: vertical; color: #183d35; background: transparent; font-size: 15px; text-transform: none; }
+:global(.select-label) { max-width: 280px; margin-top: 22px; }
+:global(.payment-choice) { display: flex !important; grid-template-columns: auto 1fr; gap: 0 11px !important; padding: 16px; border: 1px solid #d8d0c2; background: rgba(255,253,248,.55); cursor: pointer; }
+:global(.payment-choice.selected) { border-color: #ef7622; background: #fffaf0; box-shadow: inset 3px 0 #ef7622; }
+:global(.payment-choice input) { width: 15px; height: 15px; margin-top: 2px; accent-color: #ef7622; }
+:global(.payment-choice span) { display: grid; gap: 7px; }
+:global(.payment-choice strong) { color: #183d35; font-size: 13px; letter-spacing: 0; text-transform: none; }
+:global(.payment-choice small) { color: #6c7770; font-size: 11px; font-weight: 400; line-height: 1.4; letter-spacing: 0; text-transform: none; }
+:global(.change-card) { margin-top: 14px; padding: 0; border: 0; color: #183d35; background: transparent; cursor: pointer; font-size: 12px; font-weight: 700; }
+:global(.change-card span) { margin-left: 12px; color: #ef7622; text-decoration: underline; }
+:global(.checkout-submit) { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-top: 8px; padding: 17px 20px; border: 0; color: white; background: #ef7622; cursor: pointer; font-size: 13px; font-weight: 700; text-decoration: none; }
+:global(.checkout-submit:disabled) { cursor: not-allowed; opacity: .45; }
+:global(.checkout-submit span) { font-size: 20px; }
+:global(.checkout-error) { margin: 16px 0; color: #a53e27; font-size: 12px; line-height: 1.5; }
+:global(.order-summary) { align-self: start; padding: 30px; border-top: 4px solid #ef7622; background: #fffdf8; box-shadow: 0 15px 35px rgba(24,61,53,.08); }
+:global(.order-summary h2) { margin: 12px 0 26px; color: #1f5b49; font: 400 35px Georgia, serif; }
+:global(.summary-item) { display: flex; gap: 14px; padding: 18px 0; border-top: 1px solid #e4ddd0; }
+:global(.summary-item img) { width: 72px; height: 72px; object-fit: contain; background: #f8dfc9; }
+:global(.summary-item > div) { flex: 1; }:global(.summary-item strong) { display: block; color: #183d35; font: 400 16px/1.15 Georgia, serif; }:global(.summary-item small) { display: block; margin-top: 6px; color: #6c7770; font-size: 11px; }
+:global(.quantity) { display: flex; align-items: center; gap: 12px; margin-top: 11px; }:global(.quantity button) { width: 23px; height: 23px; border: 1px solid #cfc6b7; color: #183d35; background: transparent; cursor: pointer; }:global(.quantity span) { min-width: 12px; text-align: center; font-size: 12px; }
+:global(.summary-total) { display: flex; justify-content: space-between; margin-top: 15px; padding-top: 18px; border-top: 1px solid #183d35; font-size: 12px; }:global(.summary-total strong) { color: #1f5b49; font-size: 22px; }
+:global(.summary-shop-link) { display: flex; justify-content: space-between; margin-top: 36px; padding-bottom: 12px; border-bottom: 1px solid #183d35; font-size: 12px; font-weight: 700; text-decoration: none; }:global(.summary-shop-link span) { color: #ef7622; font-size: 18px; }
+:global(.checkout-success) { width: min(680px, calc(100% - 48px)); margin: auto; padding: 18vh 0; }:global(.checkout-success p) { margin-bottom: 30px; }
+:global(.card-dialog-backdrop) { z-index: 20; display: grid; place-items: center; padding: 24px; background: rgba(24,61,53,.5); }
+:global(.card-dialog) { position: relative; width: min(480px, 100%); padding: 38px; color: #183d35; background: #fffdf8; box-shadow: 0 24px 70px rgba(24,61,53,.25); }
+:global(.card-dialog-close) { position: absolute; top: 16px; right: 18px; width: 30px; height: 30px; border: 0; color: #183d35; background: transparent; cursor: pointer; font-size: 26px; line-height: 1; }
+:global(.card-dialog h2) { margin: 10px 0 8px; color: #1f5b49; font: 400 38px/1 Georgia, serif; }
+:global(.card-dialog-intro) { margin: 0 0 25px; color: #6c7770; font-size: 13px; line-height: 1.55; }
+:global(.saved-cards) { display: grid; gap: 10px; }
+:global(.saved-card) { display: flex !important; grid-template-columns: auto 1fr; gap: 12px !important; padding: 14px; border: 1px solid #d8d0c2; background: #fff; cursor: pointer; }
+:global(.saved-card.selected) { border-color: #ef7622; box-shadow: inset 3px 0 #ef7622; }
+:global(.saved-card input) { width: 16px !important; margin: 2px 0 0 !important; accent-color: #ef7622; }
+:global(.saved-card span) { display: grid; gap: 5px; }
+:global(.saved-card strong) { color: #183d35; font-size: 13px; text-transform: none; }
+:global(.saved-card small) { color: #6c7770; font-size: 12px; letter-spacing: .08em; text-transform: none; }
+:global(.new-card-field) { margin-top: 22px; }
+:global(.new-card-field input) { padding: 11px 0; }
+:global(.card-dialog-confirm) { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-top: 25px; padding: 15px 18px; border: 0; color: #fff; background: #ef7622; cursor: pointer; font-size: 13px; font-weight: 700; }
+:global(.card-dialog-confirm:disabled) { cursor: not-allowed; opacity: .5; }
+:global(.card-dialog-confirm span) { font-size: 19px; }
+@media (max-width: 760px) { :global(.checkout-header) { min-height: 68px; padding: 0 16px; } :global(.checkout-mark) { font-size: 22px; } :global(.checkout-step) { display: none; } :global(.checkout-layout) { display: flex; flex-direction: column; gap: 38px; width: calc(100% - 32px); padding: 52px 0 70px; } :global(.checkout-form-wrap h1) { font-size: 54px; } :global(.checkout-intro) { margin-bottom: 32px; } :global(.checkout-fields), :global(.payment-choices) { grid-template-columns: 1fr; } :global(.order-summary) { order: -1; padding: 22px; } :global(.checkout-success) { width: calc(100% - 32px); padding: 16vh 0; } :global(.checkout-success h1) { font-size: 58px; } }
+@media (max-width: 760px) { :global(.checkout-logo) { height: 68px; } :global(.checkout-logo img) { width: 112px; height: 68px; } :global(.card-dialog) { padding: 32px 22px 24px; } }
