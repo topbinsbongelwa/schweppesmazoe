@@ -19,12 +19,14 @@ export default function Products({ onAddToCart }: ProductsProps) {
   const [activeFilter, setActiveFilter] = useState("all");
   const [loading, setLoading] = useState(true);
   const [connected, setConnected] = useState(false);
+  const [addedProduct, setAddedProduct] = useState("");
 
   useEffect(() => {
     api.products.getAll().then((data) => { if (data.length) setProducts(data); setConnected(true); }).catch(() => undefined).finally(() => setLoading(false));
   }, []);
 
   const filtered = activeFilter === "all" ? products : products.filter((product) => product.category === activeFilter);
+  const addProduct = (product: Product) => { if (product.stock === 0) return; onAddToCart(product.name); setAddedProduct(product.name); };
 
   return (
     <section className="products-section" id="products">
@@ -37,7 +39,7 @@ export default function Products({ onAddToCart }: ProductsProps) {
               <span className="product-category">{product.badge || "Mazoe"}</span><Image src={product.image} alt={product.name} width={320} height={320} />
               <span className="image-hint">View pour</span>
             </button>
-            <div className="product-details"><span className="product-flavour">{product.flavor}</span><h3>{product.name}</h3><p>{product.description}</p><div className="product-bottom"><strong>${product.price.toFixed(2)}</strong><span>{product.packSize}</span></div><button className="add-button" onClick={() => onAddToCart(product.name)}>Add to basket <span aria-hidden="true">&#8594;</span></button></div>
+            <div className="product-details"><span className="product-flavour">{product.flavor}</span><h3>{product.name}</h3><p>{product.description}</p><div className="product-bottom"><strong>${product.price.toFixed(2)}</strong><span>{product.packSize}</span></div><span className={`home-stock ${product.stock === 0 ? "out" : ""}`}>{product.stock === 0 ? "Out of stock" : `${product.stock} left in store`}</span><button className={`add-button ${addedProduct === product.name ? "added" : ""}`} disabled={product.stock === 0} onClick={() => addProduct(product)}>{addedProduct === product.name ? "Added to cart" : "Add to basket"} <span aria-hidden="true">&#8594;</span></button></div>
           </article>)}
         </div>
       </div>
@@ -48,7 +50,7 @@ export default function Products({ onAddToCart }: ProductsProps) {
             <span className="lightbox-ring ring-one" /><span className="lightbox-ring ring-two" />
             <Image src={selectedProduct.image} alt="" width={560} height={560} priority />
           </div>
-          <div className="lightbox-copy"><span className="eyebrow">{selectedProduct.flavor}</span><h3>{selectedProduct.name}</h3><p>{selectedProduct.description}</p><strong>${selectedProduct.price.toFixed(2)}</strong><button className="primary-button" type="button" onClick={() => { onAddToCart(selectedProduct.name); setSelectedProduct(null); }}>Add to basket <span aria-hidden="true">&#8594;</span></button></div>
+          <div className="lightbox-copy"><span className="eyebrow">{selectedProduct.flavor}</span><h3>{selectedProduct.name}</h3><p>{selectedProduct.description}</p><strong>${selectedProduct.price.toFixed(2)}</strong><button className="primary-button" type="button" disabled={selectedProduct.stock === 0} onClick={() => { addProduct(selectedProduct); setSelectedProduct(null); }}>{selectedProduct.stock === 0 ? "Out of stock" : "Add to basket"} <span aria-hidden="true">&#8594;</span></button></div>
         </div>
       </div>}
     </section>

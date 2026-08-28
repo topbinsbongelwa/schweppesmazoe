@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "../../public/landing-shop-logo-.png";
 
 const milestones = [
@@ -15,6 +15,10 @@ const milestones = [
 export default function OrderTracking() {
   const [orderNumber, setOrderNumber] = useState("MZ-2048");
   const [searchedOrder, setSearchedOrder] = useState("MZ-2048");
+  const [lastUpdated, setLastUpdated] = useState(new Date());
+  const [driverProgress, setDriverProgress] = useState(62);
+
+  useEffect(() => { const timer = window.setInterval(() => { setLastUpdated(new Date()); setDriverProgress((value) => value >= 90 ? 62 : value + 1); }, 3000); return () => window.clearInterval(timer); }, []);
 
   return (
     <main className="tracking-page">
@@ -25,7 +29,7 @@ export default function OrderTracking() {
       </section>
       <section className="tracking-board site-width">
         <div className="tracking-board-head"><div><span className="eyebrow">Order {searchedOrder}</span><h2>Arriving today</h2></div><span className="live-pill"><i /> Live update</span></div>
-        <div className="delivery-scene"><div className="scene-sun" /><div className="scene-cloud cloud-one" /><div className="scene-cloud cloud-two" /><div className="road"><span /><span /><span /><span /></div><div className="truck-photo" role="img" aria-label="Delivery truck travelling on a road" style={{ backgroundImage: "url(https://images.unsplash.com/photo-1601584115197-04ecc0da31d8?auto=format&fit=crop&w=1200&q=85)" }} /><span className="scene-label">Harare delivery route</span></div>
+        <div className="live-map"><iframe title="Harare delivery area map" src="https://www.openstreetmap.org/export/embed.html?bbox=31.00%2C-17.90%2C31.15%2C-17.75&layer=mapnik" /><div className="map-route"><span className="map-origin">Warehouse</span><i style={{ left: `${driverProgress}%` }} /><span className="map-destination">Your door</span></div><div className="map-driver" style={{ left: `${driverProgress}%` }}><span className="map-pulse" /><b>Driver</b></div><div className="map-status"><span className="live-dot" /> Driver moving <small>Updated {lastUpdated.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</small></div><span className="map-place">Harare, Zimbabwe</span></div>
         <div className="milestones">{milestones.map((milestone, index) => <div className={`milestone ${index < 3 ? "complete" : ""}`} key={milestone.label}><span className="milestone-dot">{index < 3 ? "✓" : ""}</span><div><strong>{milestone.label}</strong><p>{milestone.detail}</p></div><time>{milestone.time}</time></div>)}</div>
       </section>
     </main>

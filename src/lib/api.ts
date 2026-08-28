@@ -34,6 +34,8 @@ export interface DashboardStats {
   recentOrders: Order[];
   topProducts: { _id: string; units: number; revenue: number }[];
   lowStock: Product[];
+  salesTrend: { _id: string; revenue: number; orders: number }[];
+  inventory: { units: number; products: number; low: number };
 }
 
 export interface Order {
