@@ -37,6 +37,7 @@ type Product = {
   category: string;
   image: string;
   bgColor: string;
+  stock?: number;
   badge?: string;
 };
 
@@ -176,7 +177,13 @@ export default function ShopPage({ initialCategory = "All" }: { initialCategory?
   const confirmAddToCart = () => {
     if (!selectedProduct) return;
     const { name } = selectedProduct;
-    addCartItem({ name, price: selectedProduct.price, image: selectedProduct.image });
+    const existingQuantity = readCart().find((item) => item.name === name)?.quantity || 0;
+    if (selectedProduct.stock !== undefined && existingQuantity >= selectedProduct.stock) {
+      setToast(`${name} is out of stock`);
+      setSelectedProduct(null);
+      return;
+    }
+    addCartItem({ name, price: selectedProduct.price, image: selectedProduct.image }, selectedProduct.stock);
     setCartShake(true);
     setToast(name);
     setSelectedProduct(null);
@@ -332,9 +339,13 @@ export default function ShopPage({ initialCategory = "All" }: { initialCategory?
                 <span className="currency">$</span>
                 {p.price.toFixed(2)}
               </div>
+              <div className={`stock-note ${(p.stock ?? 1) === 0 ? "out" : ""}`}>
+                {p.stock === 0 ? "Out of stock" : p.stock === undefined ? "Stock available" : `${p.stock} left`}
+              </div>
               <button
                 className="add-btn"
                 aria-label={`Add ${p.name} to cart`}
+                disabled={p.stock === 0}
                 onClick={() => setSelectedProduct(p)}
               >
                 <span className="add-label">Add to Cart</span>
@@ -412,6 +423,8 @@ export default function ShopPage({ initialCategory = "All" }: { initialCategory?
         &copy; {new Date().getFullYear()} Schweppes Holdings Africa Limited. All Rights Reserved.
       </div>
 
+      {toast && <div className={`cart-toast ${toast.endsWith("out of stock") ? "cart-toast-error" : ""}`} role="status">{toast.endsWith("out of stock") ? toast : `${toast} added to cart`}</div>}
+
       {selectedProduct && (
         <div className="cart-confirm-backdrop" role="presentation" onClick={() => setSelectedProduct(null)}>
           <div
@@ -437,10 +450,10 @@ export default function ShopPage({ initialCategory = "All" }: { initialCategory?
             <div className="cart-confirm-copy">
               <span className="confirm-kicker">Ready to pour</span>
               <h2 id="cart-confirm-title">Add {selectedProduct.name}?</h2>
-              <p>Take this bottle with you and keep the good stuff flowing.</p>
+              <p>{selectedProduct.stock === 0 ? "This product is currently out of stock." : `Only ${selectedProduct.stock ?? "a few"} left in the store.`}</p>
               <div className="cart-confirm-actions">
                 <button type="button" className="cancel-btn" onClick={() => setSelectedProduct(null)}>Cancel</button>
-                <button type="button" className="confirm-btn" onClick={confirmAddToCart}>Add to Cart <span aria-hidden="true">&rarr;</span></button>
+                <button type="button" className="confirm-btn" disabled={selectedProduct.stock === 0} onClick={confirmAddToCart}>Add to Cart <span aria-hidden="true">&rarr;</span></button>
               </div>
             </div>
           </div>
@@ -723,6 +736,8 @@ export default function ShopPage({ initialCategory = "All" }: { initialCategory?
         }
         .prod-price { padding: 4px 16px; font-size: 20px; font-weight: 800; color: var(--green); }
         .currency { color: var(--orange); font-size: 16px; }
+        .stock-note { padding: 0 16px; color: #287249; font-size: 12px; font-weight: 700; }
+        .stock-note.out { color: #b4493d; }
         .add-btn {
           margin: 10px 16px 16px;
           padding: 11px;
@@ -736,6 +751,9 @@ export default function ShopPage({ initialCategory = "All" }: { initialCategory?
           transition: background 0.2s;
         }
         .add-btn:hover { background: #dd7f06; }
+        .add-btn:disabled, .confirm-btn:disabled { cursor: not-allowed; opacity: .5; }
+        .cart-toast { position: fixed; z-index: 250; right: 24px; bottom: 24px; padding: 14px 18px; border-radius: 8px; color: #fff; background: var(--green); box-shadow: 0 12px 30px rgba(24, 61, 53, .2); font-size: 14px; font-weight: 700; animation: toast-in .25s ease-out both; }
+        .cart-toast-error { background: #b4493d; }
         .no-results { grid-column: 1 / -1; text-align: center; color: #888; }
 
         .cart-confirm-backdrop {
@@ -828,6 +846,7 @@ export default function ShopPage({ initialCategory = "All" }: { initialCategory?
         .confirm-btn span { margin-left: 8px; font-size: 18px; }
 
         @keyframes modal-fade-in { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes toast-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes modal-rise-in { from { opacity: 0; transform: translateY(18px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
         @keyframes spill-up { from { opacity: 0; clip-path: inset(100% 0 0); transform: translateY(34px) scale(.97); } to { opacity: 1; clip-path: inset(0); transform: translateY(0) scale(1); } }
         @keyframes spill-bottle { 0%, 100% { transform: translate(0, 0) rotate(2deg); } 32% { transform: translate(-13px, 10px) rotate(-8deg); } 58% { transform: translate(9px, -5px) rotate(6deg); } }

@@ -5,10 +5,10 @@ import { useEffect, useState } from "react";
 import { api, Product } from "../lib/api";
 
 const FALLBACK_PRODUCTS: Product[] = [
-  { _id: "orange", name: "Mazoe Orange Crush", description: "The iconic taste of real fruit flavour.", price: 21.51, category: "mazoe", flavor: "Orange Crush", packSize: "6 x 2L", image: "/products/mazoe-orange-crush.png", bgImage: "/products/mazoe-orange-crush.png", inStock: true, featured: true, badge: "Bestseller" },
-  { _id: "blackberry", name: "Mazoe Blackberry", description: "Deep berry flavour for the whole family.", price: 19, category: "mazoe", flavor: "Blackberry", packSize: "6 x 2L", image: "/products/mazoe-blackberry.png", bgImage: "/products/mazoe-blackberry.png", inStock: true, featured: false, badge: "" },
-  { _id: "cream", name: "Mazoe Cream Soda", description: "A smooth, creamy Mazoe original.", price: 15.8, category: "mazoe", flavor: "Cream Soda", packSize: "6 x 2L", image: "/products/mazoe-cream-soda.png", bgImage: "/products/mazoe-cream-soda.png", inStock: true, featured: false, badge: "New" },
-  { _id: "raspberry", name: "Mazoe Raspberry", description: "Bright, sweet and tangy refreshment.", price: 15.8, category: "mazoe", flavor: "Raspberry", packSize: "6 x 2L", image: "/products/mazoe-raspberry.png", bgImage: "/products/mazoe-raspberry.png", inStock: true, featured: false, badge: "" },
+  { _id: "orange", name: "Mazoe Orange Crush", description: "The iconic taste of real fruit flavour.", price: 21.51, category: "mazoe", flavor: "Orange Crush", packSize: "6 x 2L", image: "/products/mazoe-orange-crush.png", bgImage: "/products/mazoe-orange-crush.png", inStock: true, stock: 24, featured: true, badge: "Bestseller" },
+  { _id: "blackberry", name: "Mazoe Blackberry", description: "Deep berry flavour for the whole family.", price: 19, category: "mazoe", flavor: "Blackberry", packSize: "6 x 2L", image: "/products/mazoe-blackberry.png", bgImage: "/products/mazoe-blackberry.png", inStock: true, stock: 18, featured: false, badge: "" },
+  { _id: "cream", name: "Mazoe Cream Soda", description: "A smooth, creamy Mazoe original.", price: 15.8, category: "mazoe", flavor: "Cream Soda", packSize: "6 x 2L", image: "/products/mazoe-cream-soda.png", bgImage: "/products/mazoe-cream-soda.png", inStock: true, stock: 12, featured: false, badge: "New" },
+  { _id: "raspberry", name: "Mazoe Raspberry", description: "Bright, sweet and tangy refreshment.", price: 15.8, category: "mazoe", flavor: "Raspberry", packSize: "6 x 2L", image: "/products/mazoe-raspberry.png", bgImage: "/products/mazoe-raspberry.png", inStock: true, stock: 20, featured: false, badge: "" },
 ];
 
 type ProductsProps = { onAddToCart: (name: string) => void };

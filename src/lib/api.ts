@@ -11,15 +11,29 @@ export interface Product {
   image: string;
   bgImage: string;
   inStock: boolean;
+  stock: number;
   featured: boolean;
-  badge: string;
+  badge?: string;
 }
+
+export type ProductInput = Omit<Product, "_id">;
 
 export interface User {
   id: string;
   name: string;
   email: string;
-  token: string;
+}
+
+export interface AuthResponse { token: string; user: User; }
+
+export interface DashboardStats {
+  products: number;
+  orders: number;
+  customers: number;
+  revenue: number;
+  recentOrders: Order[];
+  topProducts: { _id: string; units: number; revenue: number }[];
+  lowStock: Product[];
 }
 
 export interface Order {
@@ -51,14 +65,17 @@ export const api = {
   products: {
     getAll: () => apiFetch<Product[]>("/products"),
     getOne: (id: string) => apiFetch<Product>(`/products/${id}`),
+    create: (data: ProductInput) => apiFetch<Product>("/products", { method: "POST", body: JSON.stringify(data) }),
+    update: (id: string, data: Partial<ProductInput>) => apiFetch<Product>(`/products/${id}`, { method: "PUT", body: JSON.stringify(data) }),
+    remove: (id: string) => apiFetch<{ message: string }>(`/products/${id}`, { method: "DELETE" }),
     search: (q: string) => apiFetch<Product[]>(`/products?search=${encodeURIComponent(q)}`),
     getByCategory: (cat: string) => apiFetch<Product[]>(`/products?category=${cat}`),
   },
   auth: {
     register: (data: { name: string; email: string; password: string }) =>
-      apiFetch<User>("/users/register", { method: "POST", body: JSON.stringify(data) }),
+      apiFetch<AuthResponse>("/users/register", { method: "POST", body: JSON.stringify(data) }),
     login: (data: { email: string; password: string }) =>
-      apiFetch<User>("/users/login", { method: "POST", body: JSON.stringify(data) }),
+      apiFetch<AuthResponse>("/users/login", { method: "POST", body: JSON.stringify(data) }),
     profile: (token: string) =>
       apiFetch<{ id: string; name: string; email: string }>("/users/profile", {
         headers: { Authorization: `Bearer ${token}` },
@@ -73,5 +90,8 @@ export const api = {
         headers: { Authorization: `Bearer ${token}` },
         body: JSON.stringify(data),
       }),
+  },
+  dashboard: {
+    getStats: () => apiFetch<DashboardStats>("/dashboard/stats"),
   },
 };

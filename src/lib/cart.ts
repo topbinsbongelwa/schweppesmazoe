@@ -22,11 +22,13 @@ export function writeCart(items: CartItem[]) {
   window.dispatchEvent(new Event("mazoe-cart-updated"));
 }
 
-export function addCartItem(item: Omit<CartItem, "quantity">) {
+export function addCartItem(item: Omit<CartItem, "quantity">, maxQuantity?: number) {
   const cart = readCart();
   const existing = cart.find((entry) => entry.name === item.name);
-  if (existing) existing.quantity += 1;
-  else cart.push({ ...item, quantity: 1 });
+  if (existing) {
+    if (maxQuantity !== undefined && existing.quantity >= maxQuantity) return cart;
+    existing.quantity += 1;
+  } else if (maxQuantity === undefined || maxQuantity > 0) cart.push({ ...item, quantity: 1 });
   writeCart(cart);
   return cart;
 }
