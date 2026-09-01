@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { api, DashboardStats } from "../../lib/api";
 import styles from "./dashboard-overview.module.css";
 
-const emptyStats: DashboardStats = { products: 0, orders: 0, customers: 0, revenue: 0, recentOrders: [], topProducts: [], lowStock: [], salesTrend: [], inventory: { units: 0, products: 0, low: 0 } };
+const emptyStats: DashboardStats = { products: 0, orders: 0, customers: 0, revenue: 0, recentOrders: [], topProducts: [], lowStock: [], salesTrend: [], inventory: { units: 0, products: 0, low: 0 }, orderedUnits: 0 };
 
 export default function DashboardPage() {
   const [stats, setStats] = useState<DashboardStats>(emptyStats);

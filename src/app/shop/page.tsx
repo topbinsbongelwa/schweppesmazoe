@@ -212,7 +212,7 @@ export default function ShopPage({ initialCategory = "All" }: { initialCategory?
             Whatsapp Us: +263773079763
           </span>
           <div className="top-right">
-            <Link href="/cart" className="top-link">Wishlist</Link>
+            <Link href="/dashboard/inventory" className="top-link">Inventory</Link>
             <span className="sep">&nbsp;|&nbsp;</span>
             <Link href="/checkout" className="top-link">Checkout</Link>
           </div>
@@ -519,33 +519,37 @@ export default function ShopPage({ initialCategory = "All" }: { initialCategory?
         .header-actions { display: flex; gap: 10px; margin-left: auto; }
         .header-icon {
           position: relative;
-          width: 46px;
-          height: 46px;
+          width: 56px;
+          height: 56px;
           border: 0;
           border-radius: 50%;
           background: #f5f5f5;
           color: #555;
           display: grid;
           place-items: center;
-          font-size: 20px;
+          font-size: 22px;
           cursor: pointer;
           text-decoration: none;
           transition: background 0.2s, color 0.2s;
         }
         .header-icon:hover { background: var(--orange); color: #fff; }
+        .header-icon .icon {
+          width: 26px;
+          height: 26px;
+        }
         .header-icon b {
           position: absolute;
           top: -5px;
-          right: -5px;
-          min-width: 20px;
-          height: 20px;
+          right: -4px;
+          min-width: 22px;
+          height: 22px;
           border-radius: 50%;
           background: var(--orange);
           color: #fff;
-          font-size: 11px;
+          font-size: 12px;
           display: grid;
           place-items: center;
-          padding: 0 4px;
+          padding: 0 5px;
         }
 
         .menu-button { display: none; border: 0; background: transparent; font-size: 26px; color: var(--green); cursor: pointer; }

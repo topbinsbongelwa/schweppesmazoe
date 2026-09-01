@@ -4,11 +4,33 @@ import { useEffect, useState } from "react";
 import { api, Product } from "../../../lib/api";
 import styles from "./inventory.module.css";
 
+const ADMIN_PASSKEY = "schweppesadmin";
+
 export default function InventoryPage() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [orderedUnits, setOrderedUnits] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [accessAllowed, setAccessAllowed] = useState(false);
+  const [passkey, setPasskey] = useState("");
+  const [passError, setPassError] = useState("");
+
+  const loadInventory = async () => {
+    try {
+      setLoading(true);
+      const [inventoryData, statsData] = await Promise.all([
+        api.products.getAll(),
+        api.dashboard.getStats(),
+      ]);
+      setProducts(inventoryData);
+      setOrderedUnits(statsData.orderedUnits || 0);
+      setError("");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not load inventory.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     const isAdmin = localStorage.getItem("mazoe-admin") === "true" || localStorage.getItem("mazoe-role") === "admin";
@@ -19,26 +41,46 @@ export default function InventoryPage() {
     }
 
     setAccessAllowed(true);
-    const load = async () => {
-      try {
-        const data = await api.products.getAll();
-        setProducts(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Could not load inventory.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    void load();
+    void loadInventory();
   }, []);
+
+  const unlockInventory = () => {
+    const trimmed = passkey.trim();
+    if (trimmed.toLowerCase() !== ADMIN_PASSKEY) {
+      setPassError("Incorrect passkey. Try the admin key to unlock inventory.");
+      return;
+    }
+
+    localStorage.setItem("mazoe-admin", "true");
+    localStorage.setItem("mazoe-role", "admin");
+    setPassError("");
+    setAccessAllowed(true);
+    void loadInventory();
+  };
 
   if (!accessAllowed) {
     return (
       <section className={styles.locked}>
         <span className="eyebrow">Restricted area</span>
         <h1>Admin access required.</h1>
-        <p>This stock inventory page is only available to the store administrator.</p>
+        <p>Enter the admin passkey to view available stock and stock ordered.</p>
+        <div style={{ maxWidth: 360, marginTop: 24 }}>
+          <input
+            type="password"
+            value={passkey}
+            onChange={(event) => setPasskey(event.target.value)}
+            placeholder="Admin passkey"
+            style={{ width: "100%", padding: "12px 14px", borderRadius: 10, border: "1px solid #d9d9d9" }}
+          />
+          <button
+            type="button"
+            onClick={unlockInventory}
+            style={{ marginTop: 12, width: "100%", padding: "12px 16px", border: 0, borderRadius: 10, background: "#ef7622", color: "#fff", fontWeight: 700, cursor: "pointer" }}
+          >
+            Unlock inventory
+          </button>
+          {passError && <p style={{ marginTop: 12, color: "#b4493d", fontWeight: 600 }}>{passError}</p>}
+        </div>
       </section>
     );
   }
@@ -64,8 +106,12 @@ export default function InventoryPage() {
 
       <div className={styles.metrics}>
         <div className={styles.metric}>
-          <span>Total units</span>
+          <span>Available units</span>
           <strong>{totalUnits}</strong>
+        </div>
+        <div className={styles.metric}>
+          <span>Ordered units</span>
+          <strong>{orderedUnits}</strong>
         </div>
         <div className={styles.metric}>
           <span>Low stock</span>
