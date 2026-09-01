@@ -89,7 +89,7 @@ export const api = {
     create: (token: string, data: Partial<Order>) =>
       apiFetch<Order>("/orders", {
         method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
         body: JSON.stringify(data),
       }),
   },
