@@ -39,19 +39,26 @@ export default function CheckoutPage() {
     event.preventDefault();
     setError("");
     const form = new FormData(event.currentTarget);
-    const shippingAddress = `${form.get("name")}, ${form.get("phone")}, ${form.get("address")}`;
+    const name = String(form.get("name") || "").trim();
+    const phone = String(form.get("phone") || "").trim();
+    const shippingAddress = `${name}, ${phone}, ${String(form.get("address") || "").trim()}`;
+
     try {
-      await api.orders.create("", {
+      const order = await api.orders.create("", {
         items: items.map((item) => ({ product: item.name, quantity: item.quantity, price: item.price })),
         shippingAddress,
         paymentMethod,
         ...(paymentMethod === "card" ? { cardLast4: selectedCard } : {}),
         totalAmount: Number(total.toFixed(2)),
       });
+
+      const orderRef = order?._id ? `MZ-${String(order._id).slice(-4).toUpperCase()}` : "MZ-2048";
+      window.localStorage.setItem("mazoe-last-order", JSON.stringify({ orderId: order._id, orderRef, placedAt: new Date().toISOString() }));
       writeCart([]);
       setSubmitted(true);
-    } catch {
-      setError("We could not send that order right now. Please try again or call us on +263 868 800 2173.");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Request failed";
+      setError(message || "We could not send that order right now. Please try again or call us on +263 868 800 2173.");
     }
   }
 

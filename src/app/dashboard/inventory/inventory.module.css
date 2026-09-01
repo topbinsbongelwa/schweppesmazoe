@@ -1,0 +1,145 @@
+.page {
+  display: grid;
+  gap: 22px;
+  color: #183d35;
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.header h1 {
+  margin-top: 12px;
+  color: #1f5b49;
+  font: 400 clamp(42px, 5vw, 62px) / 0.96 Georgia, serif;
+  letter-spacing: -0.06em;
+}
+
+.summary {
+  display: grid;
+  place-items: center;
+  min-width: 120px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: #fffdf8;
+  border: 1px solid #e8e2d7;
+}
+
+.summary strong {
+  font-size: 28px;
+  color: #ef7622;
+}
+
+.summary span {
+  font-size: 10px;
+  color: #6c7770;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px 18px;
+  border-radius: 16px;
+  background: #fffdf8;
+  border: 1px solid #e8e2d7;
+}
+
+.metric span {
+  color: #6c7770;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.metric strong {
+  color: #183d35;
+  font-size: 30px;
+}
+
+.tableWrap {
+  overflow: auto;
+  border: 1px solid #e8e2d7;
+  border-radius: 18px;
+  background: #fffdf8;
+}
+
+.tableWrap table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableWrap th,
+.tableWrap td {
+  padding: 16px 18px;
+  border-bottom: 1px solid #efe9df;
+  text-align: left;
+}
+
+.tableWrap th {
+  color: #6c7770;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 76px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.badgeGood { background: #e1f2e5; color: #1f5b49; }
+.badgeLow { background: #fff2cd; color: #8b6400; }
+.badgeOut { background: #fbe0d9; color: #b4493d; }
+
+.locked {
+  max-width: 620px;
+  padding-top: 10vh;
+  color: #183d35;
+}
+
+.locked h1 {
+  margin: 14px 0 10px;
+  color: #1f5b49;
+  font: 400 clamp(42px, 6vw, 70px) / 0.95 Georgia, serif;
+  letter-spacing: -0.06em;
+}
+
+.locked p {
+  color: #6c7770;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.error {
+  color: #b4493d;
+  font-weight: 700;
+}
+
+@media (max-width: 720px) {
+  .header {
+    display: block;
+  }
+
+  .metrics {
+    grid-template-columns: 1fr;
+  }
+}

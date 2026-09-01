@@ -18,7 +18,23 @@ export default function OrderTracking() {
   const [lastUpdated, setLastUpdated] = useState(new Date());
   const [driverProgress, setDriverProgress] = useState(62);
 
-  useEffect(() => { const timer = window.setInterval(() => { setLastUpdated(new Date()); setDriverProgress((value) => value >= 90 ? 62 : value + 1); }, 3000); return () => window.clearInterval(timer); }, []);
+  useEffect(() => {
+    const saved = window.localStorage.getItem("mazoe-last-order");
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved) as { orderRef?: string };
+        if (parsed.orderRef) {
+          setOrderNumber(parsed.orderRef);
+          setSearchedOrder(parsed.orderRef);
+        }
+      } catch {
+        // ignore malformed saved order data
+      }
+    }
+
+    const timer = window.setInterval(() => { setLastUpdated(new Date()); setDriverProgress((value) => value >= 90 ? 62 : value + 1); }, 3000);
+    return () => window.clearInterval(timer);
+  }, []);
 
   return (
     <main className="tracking-page">
