@@ -5,7 +5,7 @@ export default function Navbar() {
   return (
     <nav>
       <Link href="/">
-        <Image src="/logo.PNG" alt="Mazoe" width={120} height={40} />
+        <Image src="/schweppes-logo.png" alt="Schweppes" width={180} height={60} priority />
       </Link>
 
       <div>

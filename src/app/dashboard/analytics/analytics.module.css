@@ -1,0 +1,488 @@
+.page {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  background: #f9f7f4;
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  gap: 2rem;
+}
+
+.header > div {
+  flex: 1;
+}
+
+.header span.eyebrow {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #e8374b;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  color: #1a3a3a;
+  margin: 0 0 0.5rem 0;
+}
+
+.header p {
+  color: #666;
+  margin: 0;
+  font-size: 1rem;
+}
+
+.back {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 0.75rem 1.5rem;
+  border-radius: 24px;
+  text-decoration: none;
+  color: #e8374b;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.3s;
+  height: fit-content;
+}
+
+.back:hover {
+  background: #f0f0f0;
+  border-color: #e8374b;
+}
+
+.error {
+  background: #fee;
+  border: 1px solid #fcc;
+  padding: 1rem;
+  border-radius: 8px;
+  color: #c33;
+  margin-bottom: 2rem;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.metric {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.metricLabel {
+  font-size: 0.875rem;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+}
+
+.metricValue {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #1a3a3a;
+  margin-bottom: 0.5rem;
+}
+
+.metricInfo {
+  font-size: 0.875rem;
+  color: #e8374b;
+}
+
+.chartsContainer {
+  display: grid;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.panel {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.panelHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.panelHead > div:first-child span {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #e8374b;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.panelHead h2 {
+  font-size: 1.25rem;
+  color: #1a3a3a;
+  margin: 0;
+}
+
+.panelHead a {
+  color: #e8374b;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: color 0.3s;
+}
+
+.panelHead a:hover {
+  color: #c7293d;
+}
+
+.detailedChart {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.dayColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dayContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 200px;
+  width: 100%;
+  justify-content: flex-end;
+  padding: 1rem 0.5rem;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.barLarge {
+  width: 100%;
+  max-width: 40px;
+  background: linear-gradient(180deg, #e8374b, #f06b5e);
+  border-radius: 4px 4px 0 0;
+  min-height: 10px;
+  transition: all 0.3s;
+  box-shadow: 0 2px 8px rgba(232, 55, 75, 0.2);
+}
+
+.barLarge:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
+}
+
+.dayLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dayStats {
+  width: 100%;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.revenue {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #1a3a3a;
+}
+
+.orders {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+.productsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.productRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  background: #f9f7f4;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.productRank {
+  font-weight: bold;
+  color: #e8374b;
+  min-width: 30px;
+  text-align: center;
+}
+
+.productInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.productInfo strong {
+  color: #1a3a3a;
+  font-size: 0.95rem;
+}
+
+.productInfo small {
+  color: #999;
+  font-size: 0.8rem;
+}
+
+.productRevenue {
+  font-weight: bold;
+  color: #1a3a3a;
+  min-width: 80px;
+  text-align: right;
+}
+
+.productBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #e8374b, #f06b5e);
+}
+
+.inventoryList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.inventorySummary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+  background: #f9f7f4;
+  border-radius: 8px;
+}
+
+.inventoryStat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  text-align: center;
+}
+
+.inventoryStat span {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #1a3a3a;
+}
+
+.inventoryStat span.alert {
+  color: #e8374b;
+}
+
+.inventoryStat small {
+  font-size: 0.75rem;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.lowStockItems {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.lowStockRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background: #f9f7f4;
+  border-radius: 6px;
+  border-left: 3px solid #e8374b;
+}
+
+.lowStockRow > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.lowStockRow strong {
+  color: #1a3a3a;
+  font-size: 0.95rem;
+}
+
+.lowStockRow small {
+  color: #999;
+  font-size: 0.8rem;
+}
+
+.stockIndicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.insightsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.insightItem {
+  padding: 1rem;
+  background: #f9f7f4;
+  border-radius: 8px;
+  text-align: center;
+  border-top: 3px solid #e8374b;
+}
+
+.insightLabel {
+  font-size: 0.75rem;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+}
+
+.insightValue {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1a3a3a;
+}
+
+.ordersList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.orderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background: #f9f7f4;
+  border-radius: 8px;
+  border-left: 4px solid #e8374b;
+}
+
+.orderId {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 150px;
+}
+
+.orderId strong {
+  color: #1a3a3a;
+  font-size: 0.95rem;
+}
+
+.orderId small {
+  color: #999;
+  font-size: 0.8rem;
+}
+
+.orderDetails {
+  display: flex;
+  gap: 1.5rem;
+  flex: 1;
+  margin: 0 1rem;
+}
+
+.orderDetails span {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.orderStatus {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.orderStatus.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.orderStatus.completed {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.orderStatus.shipped {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.orderStatus.cancelled {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.empty {
+  color: #999;
+  text-align: center;
+  padding: 2rem 1rem;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 1rem;
+  }
+
+  .header {
+    flex-direction: column;
+  }
+
+  .header h1 {
+    font-size: 1.75rem;
+  }
+
+  .metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .detailedChart {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .orderRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+}

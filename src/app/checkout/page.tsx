@@ -38,6 +38,13 @@ export default function CheckoutPage() {
   async function placeOrder(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
+
+    const cartItems = readCart();
+    if (!cartItems.length) {
+      setError("Your basket is empty. Add a product before placing an order.");
+      return;
+    }
+
     const form = new FormData(event.currentTarget);
     const name = String(form.get("name") || "").trim();
     const phone = String(form.get("phone") || "").trim();
@@ -45,11 +52,11 @@ export default function CheckoutPage() {
 
     try {
       const order = await api.orders.create("", {
-        items: items.map((item) => ({ product: item.name, quantity: item.quantity, price: item.price })),
+        items: cartItems.map((item) => ({ product: item.name, quantity: item.quantity, price: item.price })),
         shippingAddress,
         paymentMethod,
         ...(paymentMethod === "card" ? { cardLast4: selectedCard } : {}),
-        totalAmount: Number(total.toFixed(2)),
+        totalAmount: Number(cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)),
       });
 
       const orderRef = order?._id ? `MZ-${String(order._id).slice(-4).toUpperCase()}` : "MZ-2048";

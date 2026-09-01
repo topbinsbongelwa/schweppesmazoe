@@ -124,6 +124,7 @@ export default function ShopPage({ initialCategory = "All" }: { initialCategory?
   const [activeCat, setActiveCat] = useState(initialCategory);
   const [cartCount, setCartCount] = useState(0);
   const [cartShake, setCartShake] = useState(false);
+  const [cartPouring, setCartPouring] = useState(false);
   const [showTop, setShowTop] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -185,9 +186,16 @@ export default function ShopPage({ initialCategory = "All" }: { initialCategory?
     }
     addCartItem({ name, price: selectedProduct.price, image: selectedProduct.image }, selectedProduct.stock);
     setCartShake(true);
+    setCartPouring(true);
     setToast(name);
     setSelectedProduct(null);
     setTimeout(() => setCartShake(false), 500);
+    setTimeout(() => setCartPouring(false), 900);
+  };
+
+  const triggerCartPour = () => {
+    setCartPouring(true);
+    setTimeout(() => setCartPouring(false), 900);
   };
 
   const scrollTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
@@ -246,7 +254,18 @@ export default function ShopPage({ initialCategory = "All" }: { initialCategory?
           <Link href="/account" className="header-icon" aria-label="Account">
             <Icon name="account" />
           </Link>
-          <Link href="/checkout" className={`header-icon cart-btn ${cartShake ? "cart-shake" : ""}`} aria-label={`Cart, ${cartCount} items`}>
+          <Link
+            href="/checkout"
+            className={`header-icon cart-btn ${cartShake ? "cart-shake" : ""} ${cartPouring ? "pouring" : ""}`}
+            aria-label={`Cart, ${cartCount} items`}
+            onClick={triggerCartPour}
+          >
+            <span className="cart-juice" aria-hidden="true">
+              <span className="cart-stream" />
+              <span className="cart-drop cart-drop-one" />
+              <span className="cart-drop cart-drop-two" />
+              <span className="cart-splash" />
+            </span>
             <Icon name="cart" />
             <b>{cartCount}</b>
           </Link>
@@ -530,12 +549,21 @@ export default function ShopPage({ initialCategory = "All" }: { initialCategory?
           font-size: 22px;
           cursor: pointer;
           text-decoration: none;
-          transition: background 0.2s, color 0.2s;
+          transition: background 0.2s, color 0.2s, transform 0.2s ease;
         }
-        .header-icon:hover { background: var(--orange); color: #fff; }
+        .header-icon:hover {
+          background: var(--orange);
+          color: #fff;
+          transform: translateY(-2px) scale(1.06);
+        }
         .header-icon .icon {
-          width: 26px;
-          height: 26px;
+          width: 30px;
+          height: 30px;
+          transition: transform 0.25s ease, filter 0.25s ease;
+        }
+        .header-icon:hover .icon {
+          transform: scale(1.12) rotate(-6deg);
+          filter: drop-shadow(0 6px 12px rgba(239, 118, 34, 0.3));
         }
         .header-icon b {
           position: absolute;
@@ -550,6 +578,95 @@ export default function ShopPage({ initialCategory = "All" }: { initialCategory?
           display: grid;
           place-items: center;
           padding: 0 5px;
+        }
+        .cart-btn {
+          overflow: visible;
+          isolation: isolate;
+        }
+        .cart-juice {
+          position: absolute;
+          left: 50%;
+          top: 55%;
+          width: 46px;
+          height: 54px;
+          pointer-events: none;
+          transform: translate(-50%, -50%);
+          opacity: 0;
+        }
+        .cart-stream {
+          position: absolute;
+          left: 50%;
+          top: 12px;
+          width: 11px;
+          height: 24px;
+          border-radius: 14px;
+          background: linear-gradient(180deg, rgba(255, 189, 93, 0.9), rgba(239, 118, 34, 0.94));
+          transform: translateX(-50%) rotate(12deg);
+          box-shadow: 0 0 10px rgba(239, 118, 34, 0.45);
+        }
+        .cart-drop {
+          position: absolute;
+          width: 10px;
+          height: 14px;
+          border-radius: 70% 30% 70% 30%;
+          background: linear-gradient(180deg, rgba(255, 219, 128, 0.98), rgba(239, 118, 34, 0.94));
+          opacity: 0;
+        }
+        .cart-drop-one { left: 18px; top: 22px; }
+        .cart-drop-two { right: 14px; top: 28px; width: 8px; height: 12px; }
+        .cart-splash {
+          position: absolute;
+          left: 50%;
+          bottom: 4px;
+          width: 22px;
+          height: 10px;
+          border: 3px solid rgba(247, 148, 29, 0.85);
+          border-top-color: transparent;
+          border-radius: 50%;
+          transform: translateX(-50%) scale(0.7);
+          opacity: 0;
+        }
+        .cart-btn:hover .cart-juice,
+        .cart-btn.pouring .cart-juice {
+          opacity: 1;
+          animation: cart-juice-flow 0.9s ease-in-out;
+        }
+        .cart-btn:hover .cart-stream,
+        .cart-btn.pouring .cart-stream { animation: cart-stream-pour 0.9s ease-in-out; }
+        .cart-btn:hover .cart-drop-one,
+        .cart-btn.pouring .cart-drop-one { animation: cart-drop-1 0.9s ease-in-out; }
+        .cart-btn:hover .cart-drop-two,
+        .cart-btn.pouring .cart-drop-two { animation: cart-drop-2 0.9s 0.12s ease-in-out; }
+        .cart-btn:hover .cart-splash,
+        .cart-btn.pouring .cart-splash { animation: cart-splash-pop 0.9s ease-in-out; }
+        @keyframes cart-juice-flow {
+          0% { opacity: 0; transform: translate(-50%, -42%) scale(0.8); }
+          18% { opacity: 1; }
+          100% { opacity: 0; transform: translate(-50%, 6%) scale(1.1); }
+        }
+        @keyframes cart-stream-pour {
+          0%, 20% { opacity: 0; height: 10px; }
+          38%, 72% { opacity: 1; height: 26px; }
+          100% { opacity: 0; height: 14px; }
+        }
+        @keyframes cart-drop-1 {
+          0%, 30% { opacity: 0; transform: translateY(-8px) scale(0.4); }
+          50% { opacity: 1; }
+          100% { opacity: 0; transform: translateY(18px) scale(1); }
+        }
+        @keyframes cart-drop-2 {
+          0%, 38% { opacity: 0; transform: translateY(-10px) scale(0.3); }
+          58% { opacity: 1; }
+          100% { opacity: 0; transform: translateY(22px) scale(0.9); }
+        }
+        @keyframes cart-splash-pop {
+          0%, 30% { opacity: 0; transform: translateX(-50%) scale(0.45); }
+          50% { opacity: 1; }
+          100% { opacity: 0; transform: translateX(-50%) scale(1.1); }
+        }
+        @media (max-width: 640px) {
+          .header-icon { width: 44px; height: 44px; }
+          .header-icon .icon { width: 24px; height: 24px; }
         }
 
         .menu-button { display: none; border: 0; background: transparent; font-size: 26px; color: var(--green); cursor: pointer; }
