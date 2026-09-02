@@ -42,7 +42,13 @@ export default function CheckoutPage() {
     event.preventDefault();
     setError("");
 
-    const cartItems = items.filter((item) => item.quantity > 0 && item.name && Number.isFinite(item.price));
+    const cartItems = items
+      .map((item) => ({
+        ...item,
+        price: Number(item.price),
+        quantity: Number(item.quantity),
+      }))
+      .filter((item) => item.quantity > 0 && item.name && Number.isFinite(item.price));
     if (!cartItems.length) {
       setError("Your basket is empty. Add a product before placing an order.");
       return;
