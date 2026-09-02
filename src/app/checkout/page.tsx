@@ -25,7 +25,10 @@ export default function CheckoutPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    startTransition(() => setItems(readCart()));
+    const syncCart = () => startTransition(() => setItems(readCart()));
+    syncCart();
+    window.addEventListener("mazoe-cart-updated", syncCart);
+    return () => window.removeEventListener("mazoe-cart-updated", syncCart);
   }, []);
 
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -39,7 +42,7 @@ export default function CheckoutPage() {
     event.preventDefault();
     setError("");
 
-    const cartItems = readCart();
+    const cartItems = items.filter((item) => item.quantity > 0 && item.name && Number.isFinite(item.price));
     if (!cartItems.length) {
       setError("Your basket is empty. Add a product before placing an order.");
       return;
@@ -48,7 +51,9 @@ export default function CheckoutPage() {
     const form = new FormData(event.currentTarget);
     const name = String(form.get("name") || "").trim();
     const phone = String(form.get("phone") || "").trim();
-    const shippingAddress = `${name}, ${phone}, ${String(form.get("address") || "").trim()}`;
+    const address = String(form.get("address") || "").trim();
+    const deliveryTime = String(form.get("time") || "Not specified");
+    const shippingAddress = `${name}, ${phone}, ${address}; Delivery time: ${deliveryTime}`;
 
     try {
       const order = await api.orders.create("", {
