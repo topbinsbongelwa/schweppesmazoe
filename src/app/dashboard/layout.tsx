@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import styles from "./dashboard.module.css";
@@ -16,7 +17,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
     <div className={styles.dashboard}>
       <aside className={styles.sidebar}>
-        <Link className={styles.logo} href="/dashboard">SCHWEPPES</Link>
+        <Link className={styles.logo} href="/dashboard" aria-label="Schweppes dashboard home">
+          <Image src="/logo.PNG" alt="Schweppes logo" width={58} height={58} priority />
+        </Link>
         <p className={styles.label}>Store Admin</p>
         <nav className={styles.nav} aria-label="Dashboard navigation">
           {navigation.map(([label, href]) => <Link key={href} href={href}>{label}</Link>)}

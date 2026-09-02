@@ -1,6 +1,7 @@
 .dashboard { min-height: 100vh; display: flex; color: #183d35; background: #f6f2e9; font-family: Arial, sans-serif; }
 .sidebar { width: 240px; flex: 0 0 240px; display: flex; flex-direction: column; padding: 34px 22px; background: #183d35; color: #edf3e9; }
-.logo { color: white; font: 700 31px Georgia, serif; letter-spacing: -.08em; text-decoration: none; }.logo span { color: #ef7622; }
+.logo { display: inline-flex; align-items: center; justify-content: center; width: 68px; height: 68px; text-decoration: none; }
+.logo img { width: 68px; height: 68px; object-fit: contain; display: block; }
 .label { margin: 58px 12px 14px; color: #9eb8aa; font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
 .nav { display: grid; gap: 5px; }.nav a { padding: 12px; border-radius: 8px; color: #d8e4d9; font-size: 13px; text-decoration: none; }.nav a:hover, .nav a:focus-visible { color: white; background: #28604e; }
 .profile { display: flex; align-items: center; gap: 10px; margin-top: auto; padding: 15px 8px 0; border-top: 1px solid #3d6758; }.avatar { display: grid; width: 34px; height: 34px; place-items: center; border-radius: 50%; color: #183d35; background: #f5c84b; font-size: 10px; font-weight: 700; }.profile strong, .profile small { display: block; }.profile strong { font-size: 12px; }.profile small { margin-top: 4px; color: #9eb8aa; font-size: 10px; }

@@ -52,7 +52,12 @@ export default function CheckoutPage() {
 
     try {
       const order = await api.orders.create("", {
-        items: cartItems.map((item) => ({ product: item.name, quantity: item.quantity, price: item.price })),
+        items: cartItems.map((item) => ({
+          product: item.name,
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price,
+        })),
         shippingAddress,
         paymentMethod,
         ...(paymentMethod === "card" ? { cardLast4: selectedCard } : {}),

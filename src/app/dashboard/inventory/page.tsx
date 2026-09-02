@@ -33,16 +33,19 @@ export default function InventoryPage() {
   };
 
   useEffect(() => {
-    const isAdmin = localStorage.getItem("mazoe-admin") === "true" || localStorage.getItem("mazoe-role") === "admin";
-    if (!isAdmin) {
-      setAccessAllowed(false);
-      setLoading(false);
+    setAccessAllowed(false);
+    setPasskey("");
+    setPassError("");
+    setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    if (!accessAllowed) {
       return;
     }
 
-    setAccessAllowed(true);
     void loadInventory();
-  }, []);
+  }, [accessAllowed]);
 
   const unlockInventory = () => {
     const trimmed = passkey.trim();
@@ -51,11 +54,9 @@ export default function InventoryPage() {
       return;
     }
 
-    localStorage.setItem("mazoe-admin", "true");
-    localStorage.setItem("mazoe-role", "admin");
     setPassError("");
     setAccessAllowed(true);
-    void loadInventory();
+    setPasskey("");
   };
 
   if (!accessAllowed) {
