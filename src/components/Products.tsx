@@ -11,7 +11,7 @@ const FALLBACK_PRODUCTS: Product[] = [
   { _id: "raspberry", name: "Mazoe Raspberry", description: "Bright, sweet and tangy refreshment.", price: 15.8, category: "mazoe", flavor: "Raspberry", packSize: "6 x 2L", image: "/products/mazoe-raspberry.png", bgImage: "/products/mazoe-raspberry.png", inStock: true, stock: 20, featured: false, badge: "" },
 ];
 
-type ProductsProps = { onAddToCart: (name: string) => void };
+type ProductsProps = { onAddToCart: (product: Product) => void };
 
 export default function Products({ onAddToCart }: ProductsProps) {
   const [products, setProducts] = useState<Product[]>(FALLBACK_PRODUCTS);
@@ -26,7 +26,7 @@ export default function Products({ onAddToCart }: ProductsProps) {
   }, []);
 
   const filtered = activeFilter === "all" ? products : products.filter((product) => product.category === activeFilter);
-  const addProduct = (product: Product) => { if (product.stock === 0) return; onAddToCart(product.name); setAddedProduct(product.name); };
+  const addProduct = (product: Product) => { if (product.stock === 0) return; onAddToCart(product); setAddedProduct(product.name); };
 
   return (
     <section className="products-section" id="products">

@@ -2,11 +2,13 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "../public/landing-shop-logo-.png";
 import Footer from "../components/Footer";
 import Hero from "../components/Hero";
 import Products from "../components/Products";
+import type { Product } from "../lib/api";
+import { addCartItem, cartCount as getCartCount, readCart } from "../lib/cart";
 
 function Icon({ name }: { name: "account" | "cart" | "menu" }) {
   const paths = {
@@ -22,9 +24,13 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [catalogueOpen, setCatalogueOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
-  const [cartOpen, setCartOpen] = useState(false);
-  const [lastAdded, setLastAdded] = useState("");
-  const addToCart = (name: string) => { setCartCount((count) => count + 1); setLastAdded(name); };
+  useEffect(() => {
+    const syncCart = () => setCartCount(getCartCount(readCart()));
+    syncCart();
+    window.addEventListener("mazoe-cart-updated", syncCart);
+    return () => window.removeEventListener("mazoe-cart-updated", syncCart);
+  }, []);
+  const addToCart = (product: Product) => { addCartItem({ name: product.name, price: product.price, image: product.image }, product.stock); };
   const closeMenu = () => setMenuOpen(false);
 
   return (
@@ -33,7 +39,7 @@ export default function Home() {
       <header className="shop-main-header">
         <Link href="/" className="shop-brand" aria-label="Schweppes Zimbabwe home"><Image src={logo} alt="Schweppes Zimbabwe Limited" width={180} height={100} priority /></Link>
         <div className="shop-search"><input type="search" placeholder="Search for products..." aria-label="Search for products" /></div>
-        <div className="shop-header-actions"><Link href="/shop" aria-label="Account"><Icon name="account" /></Link><button type="button" onClick={() => setCartOpen(true)} aria-label={`Cart, ${cartCount} items`}><Icon name="cart" /><b>{cartCount}</b></button></div>
+        <div className="shop-header-actions"><Link href="/shop" aria-label="Account"><Icon name="account" /></Link><Link href="/checkout" aria-label={`Cart, ${cartCount} items`}><Icon name="cart" /><b>{cartCount}</b></Link></div>
         <button className="shop-menu-button" type="button" onClick={() => setMenuOpen((open) => !open)} aria-expanded={menuOpen} aria-label="Toggle navigation"><Icon name="menu" /></button>
       </header>
       <nav className={`shop-navigation ${menuOpen ? "open" : ""}`}>
@@ -51,7 +57,6 @@ export default function Home() {
       </nav>
       <main><Hero /><Products onAddToCart={addToCart} /><section className="story-section" id="story"><div className="site-width story-grid"><div><span className="eyebrow">The Mazoe way</span><h2>Goodness in every pour.</h2></div><p>From family tables to sunny afternoons, Mazoe brings a little more joy to the everyday. Made with real fruit flavour and a taste Zimbabwe has grown up loving.</p></div></section><section className="delivery-section" id="delivery"><div className="site-width delivery-grid"><div><span className="eyebrow">Click. Shop. Sip.</span><h2>Your favourites, delivered.</h2></div><div className="delivery-note"><p>We deliver all over Zimbabwe and accept cash on delivery.</p><Link href="/shop">Explore the full range <span aria-hidden="true">&#8599;</span></Link></div></div></section></main>
       <Footer />
-      {cartOpen && <aside className="cart-drawer" aria-label="Shopping cart"><div className="cart-drawer-head"><div><span className="eyebrow">Your basket</span><h2>{cartCount} item{cartCount === 1 ? "" : "s"}</h2></div><button type="button" onClick={() => setCartOpen(false)} aria-label="Close cart">&#10005;</button></div>{cartCount > 0 ? <><p className="cart-message">{lastAdded} is ready for your next pour.</p><Link href="/shop" className="checkout-button">Review and checkout <span>&#8599;</span></Link></> : <p className="cart-message">Your basket is waiting for something delicious.</p>}</aside>}
     </>
   );
 }
